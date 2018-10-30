@@ -1,6 +1,7 @@
 %% Clear Environment and change directory
 clear; close all; clc;
 cd /home/avila/Documents/STUDIUM/03SemMaster/makro/assigm/assigm01
+addpath('./functions/')
 
 %% Q. 01 - Fetch Data 
 
