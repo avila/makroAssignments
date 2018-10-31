@@ -1,0 +1,843 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>assig01v01</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-31"><meta name="DC.source" content="assig01v01.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">00 Settings - Clear Environment and change directory</a></li><li><a href="#4">Q. 01 - Fetch Data</a></li><li><a href="#7">Q. 02 and 03 - Apply HP Filter</a></li><li><a href="#8">Q. 04 - Repeat for lambdas 0</a></li><li><a href="#10">Q. 04 - Repeat for lambdas inf</a></li><li><a href="#12">Q. 05 - Apply Log</a></li><li><a href="#14">Q. 05 - Repeat for lambdas inf</a></li><li><a href="#16">Q. 06 - Std Deviation</a></li><li><a href="#18">Q. 07 - Cyclical Series</a></li><li><a href="#21">Q. 08 - a)</a></li><li><a href="#22">Q. 08 - a)</a></li><li><a href="#24">Q. 08 b) normalizing</a></li><li><a href="#25">Q. 08 c) compute growth</a></li><li><a href="#28">sanity checks</a></li><li><a href="#36">TODO:</a></li></ul></div><h2 id="1">00 Settings - Clear Environment and change directory</h2><p>Requires: * MATLAB 2018b * Datafeed Toolbox</p><pre class="codeinput">clear; close <span class="string">all</span>; clc;
+
+<span class="comment">% Changing working directory to current script dir</span>
+tmp = matlab.desktop.editor.getActive;
+cd(fileparts(tmp.Filename));
+<span class="comment">% add functions path</span>
+addpath(<span class="string">'./functions/'</span>);
+</pre><p>Change the current folder to the folder of this m-file.</p><h2 id="4">Q. 01 - Fetch Data</h2><pre class="codeinput">startDate = <span class="string">"01/01/1996"</span>;
+endDate = <span class="string">"01/01/2018"</span>;
+
+series = [<span class="string">"FRAPFCEQDSNAQ"</span> <span class="string">"DEUPFCEQDSNAQ"</span> <span class="string">"ITAPFCEQDSNAQ"</span> <span class="keyword">...</span>
+<span class="string">"CLVMNACSCAB1GQFR"</span>, <span class="string">"CLVMNACSCAB1GQDE"</span>, <span class="string">"CLVMNACSCAB1GQIT"</span>];
+</pre><p>Using `fred` and `fetch` function to retrieve data from FRED this function requires the Datafeed Toolbox. If toolbox is not available try to load the data that should be stored in a subfolder called 'data' with the following command:</p><pre class="language-matlab">load(<span class="string">'data/dataStruct.mat'</span>)
+</pre><pre class="codeinput"><span class="comment">% using fred.stloisfed connection</span>
+url = <span class="string">"https://fred.stlouisfed.org/"</span>;
+
+<span class="comment">% retrieve data struct of the 6 time series</span>
+dataStruct = fetch(fred(url), series, startDate, endDate);
+
+<span class="comment">% consumption data</span>
+con_fr = dataStruct(1).Data(:,2);
+con_de = dataStruct(2).Data(:,2);
+con_it = dataStruct(3).Data(:,2);
+
+<span class="comment">% gdp data</span>
+gdp_fr = dataStruct(4).Data(:,2);
+gdp_de = dataStruct(5).Data(:,2);
+gdp_it = dataStruct(6).Data(:,2);
+</pre><p>where: *  (:,2) : extract second column vector from *  the row caled 'Data', from *  the (1:6) row of object defined as dataStruct and *  define as con_* and gdp_* respectively</p><pre class="codeinput"><span class="comment">%%%% Transform Data</span>
+
+con_fr = con_fr / 10^9;
+con_de = con_de / 10^9;
+con_it = con_it / 10^9;
+
+gdp_fr = gdp_fr / 10^3;
+gdp_de = gdp_de / 10^3;
+gdp_it = gdp_it / 10^3;
+</pre><h2 id="7">Q. 02 and 03 - Apply HP Filter</h2><pre class="codeinput">lambda = 1600;
+rinseAndRepeat(<span class="string">'gdp'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat(<span class="string">'con'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+</pre><img vspace="5" hspace="5" src="assig01v01_01.png" alt=""> <img vspace="5" hspace="5" src="assig01v01_02.png" alt=""> <h2 id="8">Q. 04 - Repeat for lambdas 0</h2><pre class="codeinput"><span class="comment">%%%% lambda -&gt; 0</span>
+
+lambda = 0;
+rinseAndRepeat(<span class="string">'gdp'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat(<span class="string">'con'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+</pre><img vspace="5" hspace="5" src="assig01v01_03.png" alt=""> <img vspace="5" hspace="5" src="assig01v01_04.png" alt=""> <p>ANSWER: In this case we only minimize the first term of the HP-filter minimization problem. So the trend component is exactly the same as the observated data, and the cyclical component is, therefore, zero.</p><h2 id="10">Q. 04 - Repeat for lambdas inf</h2><pre class="codeinput">lambda = 10^10;
+rinseAndRepeat(<span class="string">'gdp'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat(<span class="string">'con'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+</pre><img vspace="5" hspace="5" src="assig01v01_05.png" alt=""> <img vspace="5" hspace="5" src="assig01v01_06.png" alt=""> <p>ANSWER: In the case of lambda -&gt; inf, the second component in the HP-Filter gets the greatest weight and, therefore, we have a linear trend where the second term of the minization problem is zero, because the change in the trend is constant. The cyclical componente shows the difference between the observated data and the linear trend. Due to (near-) singularity problems, the matrix A from the HP-Filter function is not invertible for very big lambdas.  The results are, therefore, nonsensical and for Infitiy not computable.</p><pre class="codeinput">lambda = 10^50;
+rinseAndRepeat(<span class="string">'gdp'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat(<span class="string">'con'</span>, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+</pre><pre class="codeoutput">Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+Warning: Matrix is close to singular or badly scaled. Results may be
+inaccurate. RCOND =  1.505006e-18. 
+</pre><img vspace="5" hspace="5" src="assig01v01_07.png" alt=""> <img vspace="5" hspace="5" src="assig01v01_08.png" alt=""> <h2 id="12">Q. 05 - Apply Log</h2><pre class="codeinput">lgdp_de = log(gdp_de);
+lgdp_fr = log(gdp_fr);
+lgdp_it = log(gdp_it);
+
+lcon_de = log(con_de);
+lcon_fr = log(con_fr);
+lcon_it = log(con_it);
+
+<span class="comment">%%%% hp filter on log data</span>
+lambda = 1600;
+
+[lgdp_T_fr, lgdp_C_fr] = hp_filter(lgdp_fr, lambda);
+[lcon_T_fr, lcon_C_fr] = hp_filter(lcon_fr, lambda);
+
+<span class="comment">%%%% germany</span>
+[lgdp_T_de, lgdp_C_de] = hp_filter(lgdp_de, lambda);
+[lcon_T_de, lcon_C_de] = hp_filter(lcon_de, lambda);
+
+<span class="comment">%%%% italy</span>
+[lgdp_T_it, lgdp_C_it] = hp_filter(lgdp_it, lambda);
+[lcon_T_it, lcon_C_it] = hp_filter(lcon_it, lambda);
+</pre><h2 id="14">Q. 05 - Repeat for lambdas inf</h2><pre class="codeinput">close <span class="string">all</span>
+dates=1996.0:0.25:2018.0;
+
+figure;
+titleOfGraph = <span class="string">'Cyclical Series (\lambda = '</span> + string(lambda) + <span class="string">')'</span>;
+sgtitle(titleOfGraph)
+<span class="comment">% working on 3 by 1 plots, plot 01</span>
+subplot(3,1,1);     <span class="comment">% GERMANY</span>
+plot(dates, lgdp_C_de, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+plot(dates, lcon_C_de, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+xlabel(<span class="string">'Years'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+title(<span class="string">'Germany'</span>);
+legend(<span class="string">'GDP'</span>, <span class="string">'Consumptioin'</span>);
+
+<span class="comment">% working on 3 by 1 plots, plot 02</span>
+subplot(3,1,2);
+plot(dates, lgdp_C_fr, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+plot(dates, lcon_C_fr, <span class="string">'LineWidth'</span>,  1); hold <span class="string">on</span>;
+title(<span class="string">'France'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+xlabel(<span class="string">'Years'</span>);
+
+<span class="comment">% working on 3 by 1 plots, plot 03</span>
+subplot(3,1,3)
+plot(dates, lgdp_C_it, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+plot(dates, lcon_C_it, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+xlabel(<span class="string">'Years'</span>);
+title(<span class="string">'Italy'</span>);
+</pre><img vspace="5" hspace="5" src="assig01v01_09.png" alt=""> <p>ANSWER: From the cyclical component above we can notice that GDP has a peak and declines sharply after the financial crises of 2007~08. Especially for Italy one can notice the effects of the Euro sovereign debt crises around 2012. The cyclical series of consumption from Italy and France seem to closely follow the one of GDP. On the other hand, consumption in Germany is less affected by the strong changes in GDP. This could suggest that Households in Germany were less affected by both crises than in the other two countries.</p><h2 id="16">Q. 06 - Std Deviation</h2><pre class="codeinput">std(lgdp_C_de) <span class="comment">%     0.0150</span>
+std(lgdp_C_fr) <span class="comment">%     0.0092</span>
+std(lgdp_C_it) <span class="comment">%     0.0128</span>
+
+std(lcon_C_de) <span class="comment">%     0.0060</span>
+std(lcon_C_fr) <span class="comment">%     0.0070</span>
+std(lcon_C_it) <span class="comment">%     0.0110</span>
+</pre><pre class="codeoutput">
+ans =
+
+    0.0150
+
+
+ans =
+
+    0.0092
+
+
+ans =
+
+    0.0128
+
+
+ans =
+
+    0.0060
+
+
+ans =
+
+    0.0070
+
+
+ans =
+
+    0.0110
+
+</pre><p>ANSWER: The results show that consumption is less volatile than GDP in all three countries. This could be due to the fact that GDP absorbs also the volatility of its other components, that is, Gov't expenditure, Investments and Net Exports.</p><p>The very low std deviation in consumption for Germany corroborates the hypothesis advanced in the previous answer.</p><h2 id="18">Q. 07 - Cyclical Series</h2><pre class="codeinput"><span class="comment">%%%% Q.7 - a) slice timeseries</span>
+
+lambda = 1600;
+startDate = 1996;
+endDate = 2009;
+
+lgdp_it_cut = timeseries(lgdp_it,dates);
+lgdp_it_cut = getsampleusingtime(lgdp_it_cut, startDate, endDate);
+lgdp_de_cut = timeseries(lgdp_de,dates);
+lgdp_de_cut = getsampleusingtime(lgdp_de_cut, startDate, endDate);
+lgdp_fr_cut = timeseries(lgdp_fr,dates);
+lgdp_fr_cut = getsampleusingtime(lgdp_fr_cut, startDate, endDate);
+
+[lgdp_it_cut_T, lgdp_it_cut_C] =  hp_filter(lgdp_it_cut.Data, lambda);
+[lgdp_de_cut_T, lgdp_de_cut_C] =  hp_filter(lgdp_de_cut.Data, lambda);
+[lgdp_fr_cut_T, lgdp_fr_cut_C] =  hp_filter(lgdp_fr_cut.Data, lambda);
+
+<span class="comment">%%%% Q.7 - a) plot cyclical series</span>
+
+datesCut = startDate:0.25:endDate;
+
+figure;
+<span class="comment">% end-point</span>
+
+sgtitle(<span class="string">'End-Points Bias'</span>)
+<span class="comment">% working on 3 by 1 plots, plot 01</span>
+subplot(3,1,1);
+plot(dates, lgdp_C_de, <span class="string">'LineWidth'</span>, 1)      ; hold <span class="string">on</span>;
+plot(datesCut, lgdp_de_cut_C, <span class="string">'LineWidth'</span>, 1)  ; hold <span class="string">on</span>;
+
+xlabel(<span class="string">'Years'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+title(<span class="string">'Germany'</span>);
+legend(<span class="string">'long'</span>, <span class="string">'short'</span>);
+
+<span class="comment">% working on 3 by 1 plots, plot 01</span>
+subplot(3,1,2);
+plot(dates, lgdp_C_fr, <span class="string">'LineWidth'</span>, 1)      ; hold <span class="string">on</span>;
+plot(datesCut, lgdp_fr_cut_C, <span class="string">'LineWidth'</span>, 1)  ; hold <span class="string">on</span>;
+
+xlabel(<span class="string">'Years'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+title(<span class="string">'France'</span>);
+legend(<span class="string">'long'</span>, <span class="string">'short'</span>);
+
+
+subplot(3,1,3);
+plot(dates, lgdp_C_it, <span class="string">'LineWidth'</span>, 1)      ; hold <span class="string">on</span>;
+plot(datesCut, lgdp_it_cut_C, <span class="string">'LineWidth'</span>, 1)  ; hold <span class="string">on</span>;
+
+xlabel(<span class="string">'Years'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+title(<span class="string">'Italy'</span>);
+legend(<span class="string">'long'</span>, <span class="string">'short'</span>);
+</pre><img vspace="5" hspace="5" src="assig01v01_10.png" alt=""> <p>ANSWER: How one can take from the HP-Filter formula of the minimization problem, the first and the trend points, that is, the end-points, are not smoothed by the change in growth trend. That is, the second term is computed only from t=2 to T-1, whereas the first term is computed for the whole time series. This results in an exagerated estimation for the trend at the extremes. In our graph, one can see the bias only at the right end-point, because here we use the same starting date for the short and long series.</p><p>Using the HP-Filter can be problematic when the (right) endpoint is the focus of the analysis and can lead to wrong inferences or predictions. Moreover, it is problematic because the endpoint bias reverberates not only on the very last points of the trend, but on a longer span, with dismishing impact towards the middle of the trend series.</p><pre class="codeinput">figure;
+plot(dates, lgdp_T_de, <span class="string">'LineWidth'</span>, 1) ; hold <span class="string">on</span>;
+plot(datesCut, lgdp_de_cut_T, <span class="string">'LineWidth'</span>, 1) ; hold <span class="string">on</span>;
+plot(dates, lgdp_de, <span class="string">'LineWidth'</span>, 1); hold <span class="string">on</span>;
+
+xlabel(<span class="string">'Years'</span>);
+ylabel(<span class="string">'Log Billions of dollars'</span>);
+title(<span class="string">'Germany'</span>);
+legend(<span class="string">'Location'</span>, <span class="string">'northwest'</span>)
+legend(<span class="string">'long trend'</span>, <span class="string">'end-point biased'</span>, <span class="string">'log data'</span>);
+</pre><img vspace="5" hspace="5" src="assig01v01_11.png" alt=""> <p>The direct effect of the endpoint bias can be more easily assessed when comparing the plot of the two trends, rather than the one of the resulting cyclical fluctuations. As one can see above, when dealing with the shorter time series, one overestimates the trend when compared to the longer time series.</p><h2 id="21">Q. 08 - a)</h2><p>Using `fred` and `fetch` function to retrieve data from FRED this function requires the Datafeed Toolbox. If toolbox is not available try to load the data that should be stored in a subfolder called 'data' with the following command:</p><pre class="language-matlab">load(<span class="string">'data/dataStruct.mat'</span>)
+</pre><pre class="codeinput">series = [<span class="string">"MKTGDPDEA646NWDB"</span>, <span class="string">"PCAGDPDEA646NWDB"</span>, <span class="keyword">...</span>
+    <span class="string">"MKTGDPITA646NWDB"</span>, <span class="string">"PCAGDPITA646NWDB"</span>];
+startDate = <span class="string">"01/01/1970"</span>;
+endDate = <span class="string">"01/01/2016"</span>;
+
+<span class="comment">% retrieve data struct of the 6 time series</span>
+url = <span class="string">"https://fred.stlouisfed.org/"</span>;
+dataStruct2 = fetch(fred(url), series, startDate, endDate);
+
+gdpDE = dataStruct2(1).Data(:,2);
+gdpDEpc = dataStruct2(2).Data(:,2);
+gdpIT = dataStruct2(3).Data(:,2);
+gdpITpc = dataStruct2(4).Data(:,2);
+</pre><h2 id="22">Q. 08 - a)</h2><pre class="codeinput">lambda = 6.25;
+[gdpDE_T, gdpDE_C] =  hp_filter(gdpDE, lambda);
+[gdpDE_T_pc, gdpDEpc_C] =  hp_filter(gdpDEpc, lambda);
+
+[gdpIT_T, gdpIT_C] =  hp_filter(gdpIT, lambda);
+[gdpIT_T_pc, gdpITpc_C] =  hp_filter(gdpDEpc, lambda);
+</pre><p>ANSWER: We picked \lambda = 6.25, because it is the conventional value for annual data, whereas for quarterly it is 1600 and for monthly data. However, this is still a debated topic in the literature and some authors defend the usage of significantly different values, such as \lambda = 100 for yearly data.</p><h2 id="24">Q. 08 b) normalizing</h2><pre class="codeinput"><span class="comment">%germany</span>
+gdpDE_T_n = gdpDE_T / gdpDE_T(1);
+gdpDE_T_n_pc = gdpDE_T_pc / gdpDE_T_pc(1);
+
+<span class="comment">% italy</span>
+gdpIT_T_n = gdpIT_T / gdpIT_T(1);
+gdpIT_T_n_pc = gdpIT_T_pc / gdpIT_T_pc(1);
+
+
+figure;
+plot(dates, gdpIT_T, <span class="string">'LineWidth'</span>, 1) ; hold <span class="string">on</span>;
+plot(dates, gdpIT, <span class="string">'LineWidth'</span>, 1) ; hold <span class="string">on</span>;
+</pre><pre class="codeoutput error">Error using plot
+Vectors must be the same length.
+
+Error in assig01v01 (line 343)
+plot(dates, gdpIT_T, 'LineWidth', 1) ; hold on;
+</pre><h2 id="25">Q. 08 c) compute growth</h2><pre class="codeinput"><span class="comment">%germany</span>
+DEgrowth =(gdpDE_T_n(2:end)./gdpDE_T_n(1:end-1)-1);
+DEgrowth_pc =(gdpDE_T_n_pc(2:end)./gdpDE_T_n_pc(1:end-1)-1);
+
+<span class="comment">%italy</span>
+ITgrowth = (gdpIT_T_n(2:end)./gdpIT_T_n(1:end-1)-1);
+ITgrowth_pc =(gdpIT_T_n_pc(2:end)./gdpIT_T_n_pc(1:end-1)-1);
+</pre><p>Germay</p><pre class="codeinput"><span class="comment">%CAGR = (Ending value / Beginning value) ^ (1/n) - 1</span>
+CAGR_DE = (gdpDE_T_n(end) / gdpDE_T_n(1)) ^ (1 / length(gdpDE_T_n)) - 1
+AAGR_DE = mean(DEgrowth)
+
+CAGR_DE_pc = (gdpDE_T_pc(end) / gdpDE_T_pc(1)) ^ (1 / length(gdpDE_T_pc)) - 1
+AAGR_DE_pc = mean(DEgrowth_pc)
+
+<span class="comment">% Italy</span>
+CAGR_IT = (gdpIT_T_n(end) / gdpIT_T_n(1)) ^ (1 / length(gdpIT_T_n)) - 1
+AAGR_IT = mean(ITgrowth)
+
+CAGR_IT_pc = (gdpIT_T_n_pc(end) / gdpIT_T_n_pc(1)) ^ (1 / length(gdpIT_T_n_pc)) - 1
+AAGR_IT_pc = mean(ITgrowth_pc)
+</pre><p>ANSWER: The compound average growth rate is: * 6.26% for Germany's GDP * 6.16% for Germany's GPD per capita, and * 6.26% for Germany's GDP</p><h2 id="28">sanity checks</h2><p>Germany</p><pre class="codeinput">gdpDE_T_n(1) * (1 + CAGR_DE) ^ length(gdpDE_T)
+gdpDE_T_n(1) * (1 + AAGR_DE) ^ length(gdpDE_T)
+gdpDE_T_n(end)
+
+gdpDE_T_n_pc(1) * (1 + CAGR_DE_pc) ^ length(gdpDE_T_pc)
+gdpDE_T_n_pc(1) * (1 + AAGR_DE_pc) ^ length(gdpDE_T_pc)
+gdpDE_T_n_pc(end)
+
+
+<span class="comment">% Italy</span>
+gdpIT_T_n(1) * (1 + CAGR_IT) ^ length(gdpIT_T)
+gdpIT_T_n(1) * (1 + AAGR_IT) ^ length(gdpIT_T)
+gdpIT_T_n(end)
+
+gdpIT_T_n_pc(1) * (1 + CAGR_IT_pc) ^ length(gdpIT_T_pc)
+gdpIT_T_n_pc(1) * (1 + AAGR_IT_pc) ^ length(gdpIT_T_pc)
+gdpIT_T_n_pc(end)
+</pre><pre class="codeinput">figure;
+dates = 1970:1:2016;
+plot(dates, gdpIT_T_n); hold <span class="string">on</span>;
+plot(dates, gdpIT_T_n_pc); hold <span class="string">on</span>;
+</pre><pre class="codeinput">figure;
+datesShort = 1971:1:2016;
+plot(datesShort, ITgrowth); hold <span class="string">on</span>;
+plot(datesShort, ITgrowth_pc); hold <span class="string">on</span>;
+</pre><pre class="codeinput">plot(gdpDE)
+title(<span class="string">'ge'</span>)
+</pre><pre class="codeinput">figure
+plot(gdpDEpc)
+title(<span class="string">'ge pc'</span>)
+</pre><pre class="codeinput">figure
+plot(gdpIT)
+title(<span class="string">'it'</span>)
+</pre><pre class="codeinput">figure
+plot(gdpITpc)
+title(<span class="string">'it pc'</span>)
+</pre><pre class="codeinput">close <span class="string">all</span>
+</pre><h2 id="36">TODO:</h2><p>log for percentage or for heteroskedasticity, or both? Dear All,</p><p>the first homework assignment is online. % Here are again the rules of the game: % 1. There will be 4 homework assignments throughout the semester, each giving max. 4 points. The points you receive in the homework assignments will count as bonus points for the final exam in this semester. % 2. Solve the homework assignments in groups of (preferably) 4 people and do not switch groups. % 3. Hand in your solutions in time! Make sure that you write down the names and matriculation numbers of all group member on all material that you hand in. If you are asked to send your solution via email, make sure that you have the email-addresses of all member in cc. % 4. Document and comment your code clearly. Answer the questions in a clear and understandable way. This will help us to grade your solutions! % 5. Use the discussion forum on Blackboard to communicate! As I told you already, I cannot answer questions on the homework assignment. Use the forum to interact with your fellow students, organize yourselves and help each other solving the assignments. % Best, % Flora</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 00 Settings - Clear Environment and change directory
+% Requires:
+% * MATLAB 2018b
+% * Datafeed Toolbox
+
+clear; close all; clc;
+
+% Changing working directory to current script dir 
+tmp = matlab.desktop.editor.getActive;
+cd(fileparts(tmp.Filename));
+% add functions path
+addpath('./functions/');
+
+%%
+% Change the current folder to the folder of this m-file.
+%%
+%% Q. 01 - Fetch Data 
+
+startDate = "01/01/1996";
+endDate = "01/01/2018";
+
+series = ["FRAPFCEQDSNAQ" "DEUPFCEQDSNAQ" "ITAPFCEQDSNAQ" ...
+"CLVMNACSCAB1GQFR", "CLVMNACSCAB1GQDE", "CLVMNACSCAB1GQIT"];
+
+%%
+% Using `fred` and `fetch` function to retrieve data from FRED
+% this function requires the Datafeed Toolbox. If toolbox is not available
+% try to load the data that should be stored in a subfolder called 'data'
+% with the following command:
+% 
+%   load('data/dataStruct.mat')
+
+% using fred.stloisfed connection
+url = "https://fred.stlouisfed.org/";
+
+% retrieve data struct of the 6 time series
+dataStruct = fetch(fred(url), series, startDate, endDate);
+
+% consumption data
+con_fr = dataStruct(1).Data(:,2);
+con_de = dataStruct(2).Data(:,2);
+con_it = dataStruct(3).Data(:,2);
+
+% gdp data
+gdp_fr = dataStruct(4).Data(:,2);
+gdp_de = dataStruct(5).Data(:,2);
+gdp_it = dataStruct(6).Data(:,2);
+
+%%
+% where:
+% *  (:,2) : extract second column vector from
+% *  the row caled 'Data', from 
+% *  the (1:6) row of object defined as dataStruct and 
+% *  define as con_* and gdp_* respectively
+
+%%%% Transform Data
+
+con_fr = con_fr / 10^9;
+con_de = con_de / 10^9;
+con_it = con_it / 10^9;
+
+gdp_fr = gdp_fr / 10^3;
+gdp_de = gdp_de / 10^3;
+gdp_it = gdp_it / 10^3;
+
+%% Q. 02 and 03 - Apply HP Filter 
+
+lambda = 1600;
+rinseAndRepeat('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat('con', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+
+%% Q. 04 - Repeat for lambdas 0 
+
+%%%% lambda -> 0
+
+lambda = 0;
+rinseAndRepeat('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat('con', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+
+%%
+% ANSWER:
+% In this case we only minimize the first term of the HP-filter
+% minimization problem. So the trend component is exactly the same as the
+% observated data, and the cyclical component is, therefore, zero. 
+
+%% Q. 04 - Repeat for lambdas inf
+
+lambda = 10^10;
+rinseAndRepeat('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat('con', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+
+%%
+% ANSWER:
+% In the case of lambda -> inf, the second component in the HP-Filter gets the greatest 
+% weight and, therefore, we have a linear trend where the second term of
+% the minization problem is zero, because the change in the trend is
+% constant. The cyclical componente shows the difference between the
+% observated data and the linear trend. 
+% Due to (near-) singularity problems, the matrix A from the
+% HP-Filter function is not invertible for very big lambdas.  The results
+% are, therefore, nonsensical and for Infitiy not computable.
+
+lambda = 10^50;
+rinseAndRepeat('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+rinseAndRepeat('con', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+
+%% Q. 05 - Apply Log
+
+lgdp_de = log(gdp_de);
+lgdp_fr = log(gdp_fr);
+lgdp_it = log(gdp_it);
+
+lcon_de = log(con_de);
+lcon_fr = log(con_fr);
+lcon_it = log(con_it);
+
+%%%% hp filter on log data
+lambda = 1600;
+
+[lgdp_T_fr, lgdp_C_fr] = hp_filter(lgdp_fr, lambda);
+[lcon_T_fr, lcon_C_fr] = hp_filter(lcon_fr, lambda);
+
+%%%% germany
+[lgdp_T_de, lgdp_C_de] = hp_filter(lgdp_de, lambda);
+[lcon_T_de, lcon_C_de] = hp_filter(lcon_de, lambda);
+
+%%%% italy
+[lgdp_T_it, lgdp_C_it] = hp_filter(lgdp_it, lambda);
+[lcon_T_it, lcon_C_it] = hp_filter(lcon_it, lambda);
+
+
+%%
+
+%% Q. 05 - Repeat for lambdas inf
+close all
+dates=1996.0:0.25:2018.0;
+
+figure;
+titleOfGraph = 'Cyclical Series (\lambda = ' + string(lambda) + ')';
+sgtitle(titleOfGraph)
+% working on 3 by 1 plots, plot 01
+subplot(3,1,1);     % GERMANY
+plot(dates, lgdp_C_de, 'LineWidth', 1); hold on;
+plot(dates, lcon_C_de, 'LineWidth', 1); hold on;
+xlabel('Years');
+ylabel('Log Billions of dollars');
+title('Germany');
+legend('GDP', 'Consumptioin');
+
+% working on 3 by 1 plots, plot 02
+subplot(3,1,2);
+plot(dates, lgdp_C_fr, 'LineWidth', 1); hold on;
+plot(dates, lcon_C_fr, 'LineWidth',  1); hold on;
+title('France');
+ylabel('Log Billions of dollars');
+xlabel('Years');
+
+% working on 3 by 1 plots, plot 03
+subplot(3,1,3)
+plot(dates, lgdp_C_it, 'LineWidth', 1); hold on;
+plot(dates, lcon_C_it, 'LineWidth', 1); hold on;
+ylabel('Log Billions of dollars');
+xlabel('Years');
+title('Italy');
+
+%%
+% ANSWER:
+% From the cyclical component above we can notice that GDP has a peak and
+% declines sharply after the financial crises of 2007~08. Especially for
+% Italy one can notice the effects of the Euro sovereign debt crises around
+% 2012. The cyclical series of consumption from Italy and France seem to
+% closely follow the one of GDP. On the other hand, consumption in Germany
+% is less affected by the strong changes in GDP. This could suggest that
+% Households in Germany were less affected by both crises than in the other
+% two countries. 
+
+%% Q. 06 - Std Deviation 
+
+std(lgdp_C_de) %     0.0150
+std(lgdp_C_fr) %     0.0092
+std(lgdp_C_it) %     0.0128
+
+std(lcon_C_de) %     0.0060
+std(lcon_C_fr) %     0.0070
+std(lcon_C_it) %     0.0110
+
+%%
+% ANSWER:
+% The results show that consumption is less volatile than GDP in all three
+% countries. This could be due to the fact that GDP absorbs also the
+% volatility of its other components, that is, Gov't expenditure,
+% Investments and Net Exports. 
+%
+% The very low std deviation in consumption for Germany
+% corroborates the hypothesis advanced in the previous answer. 
+
+
+%% Q. 07 - Cyclical Series
+
+%%%% Q.7 - a) slice timeseries 
+
+lambda = 1600;
+startDate = 1996;
+endDate = 2009;
+
+lgdp_it_cut = timeseries(lgdp_it,dates);
+lgdp_it_cut = getsampleusingtime(lgdp_it_cut, startDate, endDate);
+lgdp_de_cut = timeseries(lgdp_de,dates);
+lgdp_de_cut = getsampleusingtime(lgdp_de_cut, startDate, endDate);
+lgdp_fr_cut = timeseries(lgdp_fr,dates);
+lgdp_fr_cut = getsampleusingtime(lgdp_fr_cut, startDate, endDate);
+
+[lgdp_it_cut_T, lgdp_it_cut_C] =  hp_filter(lgdp_it_cut.Data, lambda);
+[lgdp_de_cut_T, lgdp_de_cut_C] =  hp_filter(lgdp_de_cut.Data, lambda);
+[lgdp_fr_cut_T, lgdp_fr_cut_C] =  hp_filter(lgdp_fr_cut.Data, lambda);
+
+%%%% Q.7 - a) plot cyclical series
+ 
+datesCut = startDate:0.25:endDate;
+
+figure; 
+% end-point 
+
+sgtitle('End-Points Bias')
+% working on 3 by 1 plots, plot 01
+subplot(3,1,1);    
+plot(dates, lgdp_C_de, 'LineWidth', 1)      ; hold on;
+plot(datesCut, lgdp_de_cut_C, 'LineWidth', 1)  ; hold on;
+
+xlabel('Years');
+ylabel('Log Billions of dollars');
+title('Germany');
+legend('long', 'short');
+
+% working on 3 by 1 plots, plot 01
+subplot(3,1,2);    
+plot(dates, lgdp_C_fr, 'LineWidth', 1)      ; hold on;
+plot(datesCut, lgdp_fr_cut_C, 'LineWidth', 1)  ; hold on;
+
+xlabel('Years');
+ylabel('Log Billions of dollars');
+title('France');
+legend('long', 'short');
+
+
+subplot(3,1,3);    
+plot(dates, lgdp_C_it, 'LineWidth', 1)      ; hold on;
+plot(datesCut, lgdp_it_cut_C, 'LineWidth', 1)  ; hold on;
+
+xlabel('Years');
+ylabel('Log Billions of dollars');
+title('Italy');
+legend('long', 'short');
+
+%%
+% ANSWER:
+% How one can take from the HP-Filter formula of the minimization problem,
+% the first and the trend points, that is, the end-points, 
+% are not smoothed by the change in growth trend. That is, the second term
+% is computed only from t=2 to T-1, whereas the first term is computed for
+% the whole time series. This results in an exagerated estimation for the
+% trend at the extremes. In our graph, one can see the bias only at the right
+% end-point, because here we use the same starting date for the short and
+% long series. 
+%
+% Using the HP-Filter can be problematic when the (right) endpoint is the
+% focus of the analysis and can lead to wrong inferences or predictions.
+% Moreover, it is problematic because the endpoint bias reverberates not
+% only on the very last points of the trend, but on a longer span, with
+% dismishing impact towards the middle of the trend series.
+
+figure;
+plot(dates, lgdp_T_de, 'LineWidth', 1) ; hold on;
+plot(datesCut, lgdp_de_cut_T, 'LineWidth', 1) ; hold on;
+plot(dates, lgdp_de, 'LineWidth', 1); hold on;
+
+xlabel('Years');
+ylabel('Log Billions of dollars');
+title('Germany');
+legend('Location', 'northwest')
+legend('long trend', 'end-point biased', 'log data');
+
+%%
+% The direct effect of the endpoint bias can be more easily assessed when
+% comparing the plot of the two trends, rather than the one of the resulting cyclical
+% fluctuations. As one can see above, when dealing with the shorter time
+% series, one overestimates the trend when compared to the longer time
+% series. 
+
+
+%% Q. 08 - a)
+% Using `fred` and `fetch` function to retrieve data from FRED
+% this function requires the Datafeed Toolbox. If toolbox is not available
+% try to load the data that should be stored in a subfolder called 'data'
+% with the following command:
+% 
+%   load('data/dataStruct.mat')
+
+series = ["MKTGDPDEA646NWDB", "PCAGDPDEA646NWDB", ...
+    "MKTGDPITA646NWDB", "PCAGDPITA646NWDB"];
+startDate = "01/01/1970";
+endDate = "01/01/2016";
+
+% retrieve data struct of the 6 time series
+url = "https://fred.stlouisfed.org/";
+dataStruct2 = fetch(fred(url), series, startDate, endDate);
+
+gdpDE = dataStruct2(1).Data(:,2);
+gdpDEpc = dataStruct2(2).Data(:,2);
+gdpIT = dataStruct2(3).Data(:,2);
+gdpITpc = dataStruct2(4).Data(:,2);
+
+
+%% Q. 08 - a)
+
+lambda = 6.25;
+[gdpDE_T, gdpDE_C] =  hp_filter(gdpDE, lambda);
+[gdpDE_T_pc, gdpDEpc_C] =  hp_filter(gdpDEpc, lambda);
+
+[gdpIT_T, gdpIT_C] =  hp_filter(gdpIT, lambda);
+[gdpIT_T_pc, gdpITpc_C] =  hp_filter(gdpDEpc, lambda);
+
+
+%%
+% ANSWER: 
+% We picked \lambda = 6.25, because it is the conventional value for annual
+% data, whereas for quarterly it is 1600 and for monthly data. However,
+% this is still a debated topic in the literature and some authors defend
+% the usage of significantly different values, such as \lambda = 100 for
+% yearly data.
+
+%% Q. 08 b) normalizing 
+%germany
+gdpDE_T_n = gdpDE_T / gdpDE_T(1);
+gdpDE_T_n_pc = gdpDE_T_pc / gdpDE_T_pc(1);
+
+% italy
+gdpIT_T_n = gdpIT_T / gdpIT_T(1);
+gdpIT_T_n_pc = gdpIT_T_pc / gdpIT_T_pc(1);
+
+
+figure;
+plot(dates, gdpIT_T, 'LineWidth', 1) ; hold on;
+plot(dates, gdpIT, 'LineWidth', 1) ; hold on;
+
+
+
+
+%% Q. 08 c) compute growth 
+
+%germany
+DEgrowth =(gdpDE_T_n(2:end)./gdpDE_T_n(1:end-1)-1);
+DEgrowth_pc =(gdpDE_T_n_pc(2:end)./gdpDE_T_n_pc(1:end-1)-1);
+
+%italy
+ITgrowth = (gdpIT_T_n(2:end)./gdpIT_T_n(1:end-1)-1);
+ITgrowth_pc =(gdpIT_T_n_pc(2:end)./gdpIT_T_n_pc(1:end-1)-1);
+
+%%
+% Germay
+%CAGR = (Ending value / Beginning value) ^ (1/n) - 1
+CAGR_DE = (gdpDE_T_n(end) / gdpDE_T_n(1)) ^ (1 / length(gdpDE_T_n)) - 1
+AAGR_DE = mean(DEgrowth) 
+
+CAGR_DE_pc = (gdpDE_T_pc(end) / gdpDE_T_pc(1)) ^ (1 / length(gdpDE_T_pc)) - 1
+AAGR_DE_pc = mean(DEgrowth_pc)
+
+% Italy
+CAGR_IT = (gdpIT_T_n(end) / gdpIT_T_n(1)) ^ (1 / length(gdpIT_T_n)) - 1
+AAGR_IT = mean(ITgrowth)
+
+CAGR_IT_pc = (gdpIT_T_n_pc(end) / gdpIT_T_n_pc(1)) ^ (1 / length(gdpIT_T_n_pc)) - 1
+AAGR_IT_pc = mean(ITgrowth_pc)
+
+%%
+% ANSWER: The compound average growth rate is: 
+% * 6.26% for Germany's GDP
+% * 6.16% for Germany's GPD per capita, and
+% * 6.26% for Germany's GDP
+
+
+%%% sanity checks 
+% Germany
+gdpDE_T_n(1) * (1 + CAGR_DE) ^ length(gdpDE_T) 
+gdpDE_T_n(1) * (1 + AAGR_DE) ^ length(gdpDE_T)
+gdpDE_T_n(end)
+
+gdpDE_T_n_pc(1) * (1 + CAGR_DE_pc) ^ length(gdpDE_T_pc) 
+gdpDE_T_n_pc(1) * (1 + AAGR_DE_pc) ^ length(gdpDE_T_pc)
+gdpDE_T_n_pc(end)
+
+
+% Italy
+gdpIT_T_n(1) * (1 + CAGR_IT) ^ length(gdpIT_T) 
+gdpIT_T_n(1) * (1 + AAGR_IT) ^ length(gdpIT_T)
+gdpIT_T_n(end)
+
+gdpIT_T_n_pc(1) * (1 + CAGR_IT_pc) ^ length(gdpIT_T_pc) 
+gdpIT_T_n_pc(1) * (1 + AAGR_IT_pc) ^ length(gdpIT_T_pc)
+gdpIT_T_n_pc(end)
+
+
+%%
+figure; 
+dates = 1970:1:2016;
+plot(dates, gdpIT_T_n); hold on;
+plot(dates, gdpIT_T_n_pc); hold on;
+
+%%
+figure; 
+datesShort = 1971:1:2016;
+plot(datesShort, ITgrowth); hold on;
+plot(datesShort, ITgrowth_pc); hold on;
+
+
+%%
+plot(gdpDE)
+title('ge')
+
+%%
+figure
+plot(gdpDEpc)
+title('ge pc')
+
+%%
+figure
+plot(gdpIT)
+title('it')
+
+%%
+figure
+plot(gdpITpc)
+title('it pc')
+
+%%
+close all
+
+%% TODO: 
+% log for percentage or for heteroskedasticity, or both?
+% Dear All,
+% 
+% the first homework assignment is online. 
+% % Here are again the rules of the game: 
+% % 1. There will be 4 homework assignments throughout the semester, each giving max. 4 points. The points you receive in the homework assignments will count as bonus points for the final exam in this semester.
+% % 2. Solve the homework assignments in groups of (preferably) 4 people and do not switch groups. 
+% % 3. Hand in your solutions in time! Make sure that you write down the names and matriculation numbers of all group member on all material that you hand in. If you are asked to send your solution via email, make sure that you have the email-addresses of all member in cc. 
+% % 4. Document and comment your code clearly. Answer the questions in a clear and understandable way. This will help us to grade your solutions!
+% % 5. Use the discussion forum on Blackboard to communicate! As I told you already, I cannot answer questions on the homework assignment. Use the forum to interact with your fellow students, organize yourselves and help each other solving the assignments. 
+% % Best,
+% % Flora
+##### SOURCE END #####
+--></body></html>
