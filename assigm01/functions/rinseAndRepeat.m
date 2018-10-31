@@ -16,7 +16,7 @@ dates=1996.0:0.25:2018.0;
 [con_T_it, con_C_it] = hp_filter(con_it, lambda);
 
     
-if type == "gdp"
+if type == 'gdp'
     %%% france
     
     
@@ -34,7 +34,7 @@ if type == "gdp"
     plot(dates, gdp_fr, 'LineWidth', 1); hold on;
     plot(dates, gdp_it, 'LineWidth', 1); hold on;
     
-    title('Real Gross Domestic Product')
+    title('Level Data')
     ylabel('Billions of dollars')
     % working on 3 by 1 plots, plot 02
     subplot(3,1,2)
@@ -55,7 +55,7 @@ if type == "gdp"
     legend('Germany', 'France', 'Italy')
     hold off
 
-elseif type == "con"
+elseif type == 'con'
     
     %%% Private Final Consumption Expenditure
     % open figure to plot on
@@ -69,8 +69,6 @@ elseif type == "con"
     
     title('Level Data')
     ylabel('Billions of dollars')
-    legend('Location','southoutside', 'Orientation','horizontal')
-    legend('Germany', 'France', 'Italy')
     
     % working on 3 by 1 plots, plot 02
     subplot(3,1,2)
@@ -87,9 +85,13 @@ elseif type == "con"
     plot(dates, con_C_it); hold on;
     title('Cyclical series')
     ylabel('Billions of dollars')
+    
+    legend('Location','southoutside', 'Orientation','horizontal')
+    legend('Germany', 'France', 'Italy')
+
     hold off
     
     
 else
-    disp "type not found"
+    disp 'type not found'
 end
