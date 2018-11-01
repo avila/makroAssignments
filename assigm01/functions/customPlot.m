@@ -1,5 +1,5 @@
 %% HP Filter
-function plot02 = rinseAndRepeat(type, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
+function plot02 = customPlot(type, gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
 
 dates=1996.0:0.25:2018.0;
 
