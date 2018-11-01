@@ -1,4 +1,4 @@
-%% Advanced Macroeconomics WS18/19 - First Assigment 
+%% Advanced Macroeconomics WS18/19 - First Assigment
 %
 % This script is part of the first assignment of Advanced Macroeconomics
 % course offered in the Winter Term of 2018/2019. The authors of this
@@ -17,9 +17,6 @@ cd(fileparts(tmp.Filename));
 addpath('./functions/');
 addpath('./data/');
 
-%%
-% Change the current folder to the folder of this m-file.
-%%
 %% Q. 01 - Fetch Data
 
 startDate = "01/01/1996";
@@ -93,7 +90,7 @@ lambda = 10^10;
 customPlot('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
 customPlot('con', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
 
-lambda = 10^50; 
+lambda = 10^50;
 customPlot('gdp', gdp_fr, gdp_de, gdp_it, con_fr, con_de, con_it, lambda)
 
 %% Q. 05 - Apply Log
